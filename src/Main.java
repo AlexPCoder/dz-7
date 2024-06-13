@@ -1,15 +1,57 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+public enum SolarSystem {
+    MERCURY(0, 2439, null),
+    VENUS(50, 6051, MERCURY),
+    EARTH(50, 6371, VENUS),
+    MARS(75, 3389, EARTH),
+    JUPITER(550, 69911, MARS),
+    SATURN(650, 58232, JUPITER),
+    URANUS(800, 25362, SATURN),
+    NEPTUNE(900, 24622, URANUS);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+    private final int orderFromSun;
+    private final int prevDistance;
+    private final int distanceFromSun;
+    private final int radius;
+    private final SolarSystem previousPlanet;
+    private final SolarSystem nextPlanet;
+
+    SolarSystem(int prevDistance, int radius, SolarSystem previousPlanet) {
+        this.orderFromSun = previousPlanet == null ? 1 : previousPlanet.orderFromSun + 1;
+        this.prevDistance = prevDistance;
+        this.radius = radius;
+        this.previousPlanet = previousPlanet;
+        this.distanceFromSun = previousPlanet == null ? 0 : previousPlanet.distanceFromSun + prevDistance;
+
+        // Наступна планета для попередньоі
+        if (previousPlanet != null) {
+            previousPlanet.nextPlanet = this;
         }
+
+        // Якщо це остання планета
+        this.nextPlanet = null;
+    }
+
+    public int getOrderFromSun() {
+        return orderFromSun;
+    }
+
+    public int getPrevDistance() {
+        return prevDistance;
+    }
+
+    public int getDistanceFromSun() {
+        return distanceFromSun;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public SolarSystem getPreviousPlanet() {
+        return previousPlanet;
+    }
+
+    public SolarSystem getNextPlanet() {
+        return nextPlanet;
     }
 }
